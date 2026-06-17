@@ -43,7 +43,7 @@ class Walker {
   }
 }
 
-export const walker: Sketch = (p) => {
+export const basicWalker: Sketch = (p) => {
   let walker: Walker;
 
   p.setup = () => {

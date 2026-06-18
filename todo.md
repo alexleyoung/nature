@@ -1,3 +1,0 @@
-- [ ] make menu ui more flexible
-- [x] setup main loop screen management
-- [ ] remake basic walker

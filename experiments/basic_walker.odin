@@ -38,7 +38,7 @@ basic_walker :: Screen {
 	update = basic_walker_update,
 }
 
-basic_walker_init :: proc(_: proc()) {
+basic_walker_init :: proc() {
 	walker = Walker{rl.GetScreenWidth() / 2, rl.GetScreenHeight() / 2}
 
 	if canvas.id != 0 do rl.UnloadRenderTexture(canvas)
@@ -47,6 +47,10 @@ basic_walker_init :: proc(_: proc()) {
 	rl.BeginTextureMode(canvas)
 	rl.ClearBackground(rl.RAYWHITE)
 	rl.EndTextureMode()
+}
+
+basic_walker_deinit :: proc() {
+	rl.UnloadRenderTexture(canvas)
 }
 
 basic_walker_update :: proc(back: proc()) {

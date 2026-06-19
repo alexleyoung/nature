@@ -10,6 +10,7 @@ HEIGHT :: 640
 SCREEN :: enum {
 	MENU,
 	BASIC_WALKER,
+	NOISE_WAVE,
 	FLOW_FIELD,
 }
 
@@ -18,6 +19,7 @@ screen := SCREEN.MENU
 screens := [SCREEN]experiments.Screen {
 	.MENU = {update = main_menu_render},
 	.BASIC_WALKER = experiments.basic_walker,
+	.NOISE_WAVE = experiments.noise_wave,
 	.FLOW_FIELD = experiments.flow_field,
 }
 
@@ -53,7 +55,7 @@ main_menu_render :: proc() -> experiments.Transition {
 	rl.DrawText("nature", 20, 20, 48, rl.BLACK)
 	// experiments
 	if rl.GuiLabelButton(rl.Rectangle{30, 80, 100, 40}, "basic walker") do screen = .BASIC_WALKER
-	if rl.GuiLabelButton(rl.Rectangle{30, 120, 100, 40}, "flow field") do screen = .FLOW_FIELD
+	if rl.GuiLabelButton(rl.Rectangle{30, 120, 100, 40}, "noise wave") do screen = .NOISE_WAVE
 
 	rl.EndDrawing()
 	return .NONE

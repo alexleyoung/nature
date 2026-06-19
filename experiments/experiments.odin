@@ -5,6 +5,11 @@ Screen :: struct {
 	init:   proc(),
 	// optional, run on switch away
 	deinit: proc(),
-	// required
-	update: proc(back: proc()),
+	// required; returns the navigation it wants
+	update: proc() -> Transition,
+}
+
+Transition :: enum {
+	NONE,
+	BACK,
 }

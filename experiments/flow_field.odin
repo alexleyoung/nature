@@ -35,12 +35,13 @@ flow_field_deinit :: proc() {
 	f = {}
 }
 
-flow_field_update :: proc(back: proc()) {
+flow_field_update :: proc() -> Transition {
 	rl.BeginDrawing()
+	defer rl.EndDrawing()
 	rl.ClearBackground(rl.RAYWHITE)
 
 	// UI
-	if rl.GuiLabelButton(rl.Rectangle{20, 20, 40, 40}, "back") do back()
+	if rl.GuiLabelButton(rl.Rectangle{20, 20, 40, 40}, "back") do return .BACK
 
-	rl.EndDrawing()
+	return .NONE
 }

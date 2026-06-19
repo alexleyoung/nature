@@ -35,6 +35,7 @@ walker: Walker
 
 basic_walker :: Screen {
 	init   = basic_walker_init,
+	deinit = basic_walker_deinit,
 	update = basic_walker_update,
 }
 
@@ -53,7 +54,7 @@ basic_walker_deinit :: proc() {
 	rl.UnloadRenderTexture(canvas)
 }
 
-basic_walker_update :: proc(back: proc()) {
+basic_walker_update :: proc() -> Transition {
 	step(&walker)
 
 	rl.BeginTextureMode(canvas)
@@ -61,6 +62,7 @@ basic_walker_update :: proc(back: proc()) {
 	rl.EndTextureMode()
 
 	rl.BeginDrawing()
+	defer rl.EndDrawing()
 	rl.ClearBackground(rl.RAYWHITE)
 
 	rl.DrawTextureRec(
@@ -71,7 +73,7 @@ basic_walker_update :: proc(back: proc()) {
 	)
 
 	// UI over the walker
-	if rl.GuiLabelButton(rl.Rectangle{20, 20, 40, 40}, "back") do back()
+	if rl.GuiLabelButton(rl.Rectangle{20, 20, 40, 40}, "back") do return .BACK
 
-	rl.EndDrawing()
+	return .NONE
 }

@@ -1,7 +1,8 @@
-package experiments
+package basic_walker
 
 import "core:math/rand"
 
+import exp "nature:experiments"
 import rl "vendor:raylib"
 
 TILE_SIZE :: 4
@@ -11,10 +12,8 @@ Walker :: struct {
 	x, y: i32,
 }
 
-rng := rand.default_random_generator()
-
 step :: proc(w: ^Walker) {
-	dir := rand.int_range(0, 4, rng)
+	dir := rand.int_range(0, 4)
 	switch dir {
 	case 0:
 		w.y -= 1
@@ -27,19 +26,17 @@ step :: proc(w: ^Walker) {
 	}
 }
 
-// need to draw to canvas to avoid dubble buffer issues
-// while accumulating draws
 canvas: rl.RenderTexture2D
 
 walker: Walker
 
-basic_walker :: Screen {
-	init   = basic_walker_init,
-	deinit = basic_walker_deinit,
-	update = basic_walker_update,
+Screen :: exp.Screen {
+	init   = init,
+	deinit = deinit,
+	update = update,
 }
 
-basic_walker_init :: proc() {
+init :: proc() {
 	walker = Walker{rl.GetScreenWidth() / 2, rl.GetScreenHeight() / 2}
 
 	if canvas.id != 0 do rl.UnloadRenderTexture(canvas)
@@ -50,11 +47,11 @@ basic_walker_init :: proc() {
 	rl.EndTextureMode()
 }
 
-basic_walker_deinit :: proc() {
+deinit :: proc() {
 	rl.UnloadRenderTexture(canvas)
 }
 
-basic_walker_update :: proc() -> Transition {
+update :: proc() -> exp.Transition {
 	step(&walker)
 
 	rl.BeginTextureMode(canvas)
@@ -72,7 +69,6 @@ basic_walker_update :: proc() -> Transition {
 		rl.WHITE,
 	)
 
-	// UI over the walker
 	if rl.GuiLabelButton(rl.Rectangle{20, 20, 40, 40}, "back") do return .BACK
 
 	return .NONE

@@ -1,21 +1,13 @@
-package experiments
-
-import "core:math/noise"
-import "core:math/rand"
+package flow_field
 
 import rl "vendor:raylib"
+import exp "nature:experiments"
 
-flow_field :: Screen {
-	init   = flow_field_init,
-	deinit = flow_field_deinit,
-	update = flow_field_update,
-}
-
-SCALE :: 8
+SCALE := 8
 
 Field :: struct {
 	rows, cols: int,
-	arr:        [][2]f32, // flat grid, indexed [y*cols + x]
+	arr:        [][2]f32,
 }
 
 f: Field
@@ -24,23 +16,28 @@ field_at :: proc(f: ^Field, x, y: int) -> ^[2]f32 {
 	return &f.arr[y * f.cols + x]
 }
 
-flow_field_init :: proc() {
+Screen :: exp.Screen {
+	init   = init,
+	deinit = deinit,
+	update = update,
+}
+
+init :: proc() {
 	f.rows = int(rl.GetScreenHeight()) / SCALE
 	f.cols = int(rl.GetScreenWidth()) / SCALE
 	f.arr = make([][2]f32, f.rows * f.cols)
 }
 
-flow_field_deinit :: proc() {
+deinit :: proc() {
 	delete(f.arr)
 	f = {}
 }
 
-flow_field_update :: proc() -> Transition {
+update :: proc() -> exp.Transition {
 	rl.BeginDrawing()
 	defer rl.EndDrawing()
 	rl.ClearBackground(rl.RAYWHITE)
 
-	// UI
 	if rl.GuiLabelButton(rl.Rectangle{20, 20, 40, 40}, "back") do return .BACK
 
 	return .NONE

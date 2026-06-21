@@ -4,9 +4,9 @@ import rl "vendor:raylib"
 
 import "nature:experiments"
 import bw "nature:experiments/basic_walker"
-import nw "nature:experiments/noise_wave"
-import nw2d "nature:experiments/noise_wave_2d"
 import ff "nature:experiments/flow_field"
+import nwalk "nature:experiments/noise_walker"
+import nwave "nature:experiments/noise_wave"
 
 WIDTH :: 640
 HEIGHT :: 640
@@ -14,19 +14,19 @@ HEIGHT :: 640
 SCREEN :: enum {
 	MENU,
 	BASIC_WALKER,
+	NOISE_WALKER,
 	NOISE_WAVE,
-	NOISE_WAVE_2D,
 	FLOW_FIELD,
 }
 
 screen := SCREEN.MENU
 
 screens := [SCREEN]experiments.Screen {
-	.MENU         = {update = main_menu_render},
+	.MENU = {update = main_menu_render},
 	.BASIC_WALKER = bw.Screen,
-	.NOISE_WAVE   = nw.Screen,
-	.NOISE_WAVE_2D = nw2d.Screen,
-	.FLOW_FIELD   = ff.Screen,
+	.NOISE_WALKER = nwalk.Screen,
+	.NOISE_WAVE = nwave.Screen,
+	.FLOW_FIELD = ff.Screen,
 }
 
 main :: proc() {
@@ -58,8 +58,8 @@ main_menu_render :: proc() -> experiments.Transition {
 
 	rl.DrawText("nature", 20, 20, 48, rl.BLACK)
 	if rl.GuiLabelButton(rl.Rectangle{30, 80, 100, 40}, "basic walker") do screen = .BASIC_WALKER
-	if rl.GuiLabelButton(rl.Rectangle{30, 120, 100, 40}, "noise wave") do screen = .NOISE_WAVE
-	if rl.GuiLabelButton(rl.Rectangle{30, 160, 100, 40}, "noise wave 2d") do screen = .NOISE_WAVE_2D
+	if rl.GuiLabelButton(rl.Rectangle{30, 120, 100, 40}, "noise walker") do screen = .NOISE_WALKER
+	if rl.GuiLabelButton(rl.Rectangle{30, 160, 100, 40}, "noise wave") do screen = .NOISE_WAVE
 
 	rl.EndDrawing()
 	return .NONE

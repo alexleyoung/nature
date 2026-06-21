@@ -3,5 +3,5 @@ default: run
 build:
     odin build . -collection:nature=.
 
-run:
+run: build
     odin run . -collection:nature=.

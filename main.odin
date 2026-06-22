@@ -7,6 +7,7 @@ import bw "nature:experiments/basic_walker"
 import ff "nature:experiments/flow_field"
 import nwalk "nature:experiments/noise_walker"
 import nwave "nature:experiments/noise_wave"
+import basicfollowmouse "nature:experiments/basic_follow_mouse"
 
 WIDTH :: 640
 HEIGHT :: 640
@@ -17,6 +18,7 @@ SCREEN :: enum {
 	NOISE_WALKER,
 	NOISE_WAVE,
 	FLOW_FIELD,
+	BASIC_FOLLOW_MOUSE,
 }
 
 screen := SCREEN.MENU
@@ -27,6 +29,7 @@ screens := [SCREEN]experiments.Screen {
 	.NOISE_WALKER = nwalk.Screen,
 	.NOISE_WAVE = nwave.Screen,
 	.FLOW_FIELD = ff.Screen,
+	.BASIC_FOLLOW_MOUSE = basicfollowmouse.Screen,
 }
 
 main :: proc() {
@@ -61,6 +64,7 @@ main_menu_render :: proc() -> experiments.Transition {
 	if rl.GuiLabelButton(rl.Rectangle{30, 120, 100, 40}, "noise walker") do screen = .NOISE_WALKER
 	if rl.GuiLabelButton(rl.Rectangle{30, 160, 100, 40}, "noise wave") do screen = .NOISE_WAVE
 
+	if rl.GuiLabelButton(rl.Rectangle{30, 200, 100, 40}, "basic follow mouse") do screen = .BASIC_FOLLOW_MOUSE
 	rl.EndDrawing()
 	return .NONE
 }
